@@ -1,27 +1,33 @@
 package test.main;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
+import test.mypac.Member;
 import test.util.DBConnect;
 
-/*
- *  JDBC ( Java DataBase Connectivity )
- *  
- *  DataBase 에 연결해서 SELECT, INSERT, UPDATE, DELETE 작업하기
- *  
- *  Oracle 에 연결하기 위해서는 드라이버 클래스가 들어있는 ojdbc6.jar 파일을
- *  사용할수 있도록 설정해야 한다.
- */
-public class MainClass06 {
+public class MainClass08 {
 	public static void main(String[] args) {
-			
-		//시퀀스(member_seq)를 이용해서 회원정보 추가
-		String name="김구라";
-		String addr="노량진";
+		//추가할 회원의 정보
+		String name="주뎅이";
+		String addr="봉천동";
+		
+		//추가할 회원의 정보를 HashMap 객체에 key : value 의 쌍으로 저장한 다음
+		Map<String, Object> map=new HashMap<>();
+		map.put("name", name);
+		map.put("addr", addr);
+		
+		//insert() 메소드 호출하면서 Map 객체를 전달!
+		insert(map);
+	}
 	
+	//회원 한명의 정보를 추가하는 메소드 만들기
+	public static void insert(Map<String, Object> m) {
+		//Map 에 저장된 회원의 이름과 주소를 읽어와서 
+		String name=(String)m.get("name");
+		String addr=(String)m.get("addr");
 		//insert 작업을 위해서 필요한 객체의 참조값을 담을 지역 변수 미리 만들기 
 		Connection conn=null;
 		PreparedStatement pstmt=null;
@@ -49,20 +55,6 @@ public class MainClass06 {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

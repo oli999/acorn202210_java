@@ -1,27 +1,29 @@
 package test.main;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
+import test.dto.MemberDto;
 import test.util.DBConnect;
 
-/*
- *  JDBC ( Java DataBase Connectivity )
- *  
- *  DataBase 에 연결해서 SELECT, INSERT, UPDATE, DELETE 작업하기
- *  
- *  Oracle 에 연결하기 위해서는 드라이버 클래스가 들어있는 ojdbc6.jar 파일을
- *  사용할수 있도록 설정해야 한다.
- */
-public class MainClass06 {
+public class MainClass09 {
 	public static void main(String[] args) {
-			
-		//시퀀스(member_seq)를 이용해서 회원정보 추가
-		String name="김구라";
-		String addr="노량진";
+		//추가할 회원의 정보
+		String name="주뎅이";
+		String addr="봉천동";
+		
+		//추가할 회원의 정보를 MemberDto 객체에 담아서 
+		MemberDto dto=new MemberDto();
+		dto.setName(name);
+		dto.setAddr(addr);
+		
+		//insert() 메소드 호출하면서 MemberDto 객체를 전달!
+		insert(dto);
+	}
 	
+	//회원 한명의 정보를 추가하는 메소드 만들기
+	public static void insert(MemberDto dto) {
+		
 		//insert 작업을 위해서 필요한 객체의 참조값을 담을 지역 변수 미리 만들기 
 		Connection conn=null;
 		PreparedStatement pstmt=null;
@@ -34,8 +36,8 @@ public class MainClass06 {
 					+ " VALUES(member_seq.NEXTVAL, ?, ?)";
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, name);
-			pstmt.setString(2, addr);
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getAddr());
 			//sql 문 실행하기
 	        pstmt.executeUpdate();
 	        System.out.println("회원 정보를 추가했습니다.");
@@ -49,20 +51,6 @@ public class MainClass06 {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
